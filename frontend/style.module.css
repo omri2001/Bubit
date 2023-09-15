@@ -1,0 +1,59 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.Header {
+  text-align: center;
+  line-height: 1;
+}
+.mainHeader {
+  height: fit-content;
+  font-size: 4em;
+  margin-bottom: 0;
+}
+.underHeader {
+  font-size: 0.7em;
+}
+
+.displayBox {
+  margin: 20px;
+  padding: 0 20px;
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid gray;
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.itemName {
+  white-space: nowrap;
+  margin: 5px;
+  width: 60%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.itemName::-webkit-scrollbar {
+  display: none;
+}
+.itemType {
+  width: 50px;
+  padding: 5px;
+}
+.itemDel {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 20px;
+  color: transparent;
+  text-shadow: 0 0 0 firebrick;
+}
+
+.getFilesBtn {
+  margin-top: 20px;
+}
