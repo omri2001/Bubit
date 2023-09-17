@@ -1,28 +1,32 @@
 import Header from "./components/Header";
 import DisplayBox from "./components/DisplayBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
-const getFiles = () => {
-  return [
-    "hello.txt",
-    "hey.txt",
-    "omri.zip",
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh.zip",
-  ];
-};
-
 function App() {
-  const [files, setFiles] = useState(getFiles());
+  const [files, setFiles] = useState([""]);
+
+  const getFiles = () => {
+    fetch("http://localhost:8000/files")
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setFiles(data.files);
+      });
+  };
+
+  useEffect(() => {
+    getFiles();
+  }, []);
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Header />
+    <div className="App">
+      <Header />
+      <BrowserRouter>
         <DisplayBox files={files} setFiles={setFiles} getFiles={getFiles} />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -3,27 +3,33 @@ import { Link } from "react-router-dom";
 
 import styles from "../../style.module.css";
 
-export default function Item({ name, setFiles, files }) {
+export default function Item({ name, setFiles, files, getFiles }) {
   const [isHovered, setIsHovered] = useState(false);
   const emoji = isHovered ? "📂" : "📁";
-  const binaryType = "binary";
+  const binaryType = "file";
 
   let fileType = name.split(".")[1];
   fileType = fileType ? `.${fileType}` : binaryType;
   const fileName = name.split(".")[0];
 
   function deleteFile() {
-    setFiles(files.filter((fileName) => fileName !== name));
+    fetch(`http://localhost:8000/delete/${name}`, { method: "POST" });
+    getFiles();
   }
 
   function downloadFile() {
-    const blob = new Blob([name], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = name;
-    link.click();
-    URL.revokeObjectURL(url);
+    fetch(`http://localhost:8000/get/${name}`, { method: "POST" })
+      .then((response) => {
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = name;
+        link.click();
+        URL.revokeObjectURL(url);
+      });
   }
   const fileNameFormated = (
     <>
