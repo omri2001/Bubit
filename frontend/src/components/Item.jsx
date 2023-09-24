@@ -1,24 +1,43 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 import styles from "../../style.module.css";
 
-export default function Item({ name, setFiles, files, getFiles }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const emoji = isHovered ? "📂" : "📁";
-  const binaryType = "file";
+import FolderZipIcon from "@mui/icons-material/FolderZip";
+import DescriptionIcon from "@mui/icons-material/Description";
+import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
+import { hexToRgb } from "@material-ui/core";
 
-  let fileType = name.split(".")[1];
-  fileType = fileType ? `.${fileType}` : binaryType;
-  const fileName = name.split(".")[0];
+function getIcon(fileName) {
+  const fileType = fileName.split(".")[1];
+
+  switch (fileType) {
+    case "zip":
+      return <FolderZipIcon />;
+    case "txt":
+      return <DescriptionIcon />;
+    default:
+      return <FolderSpecialIcon />;
+  }
+}
+
+const getName = (fullName) => {
+  return fullName.split(".")[0];
+};
+
+export default function Item({ fullName, getFiles }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const fileType = getIcon(fullName);
+  const fileName = getName(fullName);
 
   function deleteFile() {
-    fetch(`http://localhost:8000/delete/${name}`, { method: "POST" });
+    fetch(`http://localhost:8000/delete/${fullName}`, { method: "POST" });
     getFiles();
   }
 
   function downloadFile() {
-    fetch(`http://localhost:8000/get/${name}`, { method: "POST" })
+    fetch(`http://localhost:8000/get/${fullName}`, { method: "POST" })
       .then((response) => {
         return response.blob();
       })
@@ -26,19 +45,11 @@ export default function Item({ name, setFiles, files, getFiles }) {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = name;
+        link.download = fullName;
         link.click();
         URL.revokeObjectURL(url);
       });
   }
-  const fileNameFormated = (
-    <>
-      {`${emoji} `}
-      <a href="#" onClick={downloadFile}>
-        {fileName}
-      </a>
-    </>
-  );
 
   return (
     <div
@@ -46,11 +57,15 @@ export default function Item({ name, setFiles, files, getFiles }) {
       onMouseLeave={() => setIsHovered(false)}
       className={styles.item}
     >
-      <div className={styles.itemName}>{fileNameFormated}</div>
+      <div className={styles.itemName}>
+        {isHovered ? "📂" : "📁"}
+        <a href="#" onClick={downloadFile}>
+          {fileName}
+        </a>
+      </div>
+
       <div className={styles.itemType}>{fileType}</div>
-      <button className={styles.itemDel} onClick={deleteFile}>
-        🗑️
-      </button>
+      <RemoveCircleIcon className={styles.itemDel} onClick={deleteFile} />
     </div>
   );
 }

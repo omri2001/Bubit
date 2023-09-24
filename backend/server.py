@@ -1,5 +1,6 @@
 import shutil
-from fastapi import FastAPI
+from typing import List
+from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
 
@@ -39,6 +40,13 @@ def delete_file(file_name: str):
     if os.path.isdir(rel_path):
         rm_func = os.rmdir
     rm_func(rel_path)
+
+@app.post("/upload/")
+def upload_file(files: List[UploadFile]):
+    for file in files:
+        with open(f"./db/{file.filename}", "wb") as f:
+            f.write(file.file.read())
+
 
 
 if __name__ == "__main__":
