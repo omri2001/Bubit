@@ -1,0 +1,70 @@
+cardBtns = document.querySelectorAll('.img__button')
+navbarBtns = document.querySelectorAll('.navbar_icon');
+
+closeBtn = document.getElementById('modalCloseBtn');
+
+cardModal = document.getElementById('simpleModal');
+
+navbarModal = document.getElementById('navbarModal');
+
+var modal_name_to_class = {'cardModal': '.package','navbarModal':'.top__modal'};
+
+var cardBtn_to_cardModal_ids = {'darkslateblue-btn':'pack1','turquoise-btn':'pack2','gold-btn':'pack3',
+                                'orangered-btn':'pack4','dodgerblue-btn':'pack5'}
+
+var navbarBtn_to_navbarModal_ids = {'top_one_btn':'one__modal','top_problem_btn':'problem__modal',
+                                    'top_three_btn':'three__modal'};
+
+
+// navbar buttons for modal opening
+navbarBtns.forEach(function(elem){
+    elem.addEventListener('click', function(){
+        navbarModal.style.display = 'block'
+        OpenCloseNavbarModal(elem.id)
+    })
+})
+
+// card buttons for modal opening
+cardBtns.forEach(function(elem){
+    elem.addEventListener('click', function (){
+        cardModal.style.display = 'block';
+        document.getElementById(cardBtn_to_cardModal_ids[elem.id]).style.display = 'block';
+    })
+})
+
+// x that close the modal on the side
+closeBtn.addEventListener('click', function (){
+    cardModal.style.display = 'none';
+    closeModals('cardModal')
+})
+
+// close relevant modal if clicked outside
+window.addEventListener('click',clickOutside);
+function clickOutside(e){
+    if(e.target == cardModal){
+        cardModal.style.display = 'none';
+        closeModals('cardModal')
+    }else if(e.target == navbarModal){
+        navbarModal.style.display = 'none';
+        closeModals('navbarModal');
+    }
+}
+
+
+function closeModals(modal_name){
+    modal_class = modal_name_to_class[modal_name];
+    document.querySelectorAll(modal_class).forEach((element) =>{
+        element.style.display = 'none'});
+}
+
+function OpenCloseNavbarModal(navbar_btn_id){
+    relevant_modal_id = navbarBtn_to_navbarModal_ids[navbar_btn_id];
+    relevant_modal = document.getElementById(relevant_modal_id);
+    if (relevant_modal.style.display == 'none'){
+        closeModals('navbarModal')
+        relevant_modal.style.display = 'block';
+    }else{
+        navbarModal.style.display = 'none';
+        closeModals('navbarModal')
+    }
+}

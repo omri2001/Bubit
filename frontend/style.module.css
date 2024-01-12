@@ -15,6 +15,9 @@ body {
 .underHeader {
   font-size: 0.7em;
 }
+.userWelcome {
+  padding: 20px;
+}
 
 .uploadZone {
   width: 75%;
@@ -60,4 +63,11 @@ body {
 
 .getFilesBtn {
   margin-top: 20px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px;
 }

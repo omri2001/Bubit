@@ -1,9 +1,16 @@
 import Item from "./Item";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export default function ItemList({ items, getFiles }) {
-  useEffect(getFiles);
+  const isInitialMount = useRef(true);
 
+  useEffect(() => {
+    if (isInitialMount.current) {
+      getFiles();
+      isInitialMount.current = false;
+    } else {
+    }
+  });
   return (
     <div>
       {items.map((name) => (

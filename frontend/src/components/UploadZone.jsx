@@ -1,28 +1,28 @@
 import { useState } from "react";
 import styles from "../../style.module.css";
 import { DropzoneArea } from "material-ui-dropzone";
+import filesHandler from "../api/filesHandler";
 
-export default function UploadZone({ getFiles }) {
-  const [uploadFiles, setUploadFiles] = useState([]);
+export default function UploadZone({ user, getFiles }) {
+  const [uploadedFiles, setUploadFiles] = useState([]);
+
+  const hasFilesToUpload = uploadedFiles.length != 0;
 
   function UploadFiles() {
-    if (uploadFiles.length == 0) {
-      console.log("no files selected");
-      return;
-    }
     const formData = new FormData();
-    uploadFiles.map((file) => {
-      formData.append("file", file);
+    uploadedFiles.map((file) => {
+      formData.append("files", file);
     });
-
-    fetch("http://localhost:8000/upload/", { method: "POST", body: formData });
+    filesHandler.uploadFiles(formData, user);
     getFiles();
   }
 
   return (
     <div className={styles.uploadZone}>
       <DropzoneArea onChange={(files) => setUploadFiles(files)} />
-      <button onClick={UploadFiles}>Submit</button>
+      <button disabled={!hasFilesToUpload} onClick={UploadFiles}>
+        Submit
+      </button>
     </div>
   );
 }

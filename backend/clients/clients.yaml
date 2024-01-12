@@ -1,0 +1,5 @@
+clients:
+  - username: admin
+    password: admin
+  - username: omri
+    password: omri1912
