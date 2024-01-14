@@ -18,7 +18,7 @@ app.add_middleware(CORSMiddleware,
                    allow_headers=["*"],
                    )
 
-client_manager = ClientsManager(r"backend\users\users.yaml")
+client_manager = ClientsManager(r"backend\clients\clients.yaml")
 
 
 @app.get("/")

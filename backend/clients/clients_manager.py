@@ -12,7 +12,7 @@ class ClientsManager:
         self.clients = self._setup_clients_from_config(config_path)
 
     def is_valid(self, input_client: Client) -> Union[str, bool]:
-        client = list(filter(lambda username: username == input_client.username, self.clients))
+        client = list(filter(lambda client: client.username == input_client.username, self.clients))
         if not client:
             raise InvalidUsernameError(input_client.username)
         return client[0].password == input_client.password

@@ -3,6 +3,41 @@ body {
   font-family: sans-serif;
 }
 
+.navBar {
+  background-color: darkslategray;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+  text-decoration: none;
+  align-items: center;
+  padding: 5px;
+}
+.navBarTitle {
+  margin-left: 20px;
+  font-size: 2rem;
+}
+.navBarHelp {
+  margin-left: auto;
+  padding: 10px;
+}
+.navBarHelp:hover {
+  cursor: pointer;
+  color: gray;
+}
+
+.infoModal {
+  display: inline;
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* TODO: this css is half broken and not clean */
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
 .Header {
   text-align: center;
   line-height: 1;
