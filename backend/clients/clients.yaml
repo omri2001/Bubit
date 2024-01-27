@@ -3,3 +3,5 @@ clients:
     password: admin
   - username: omri
     password: omri1912
+  - username: checker
+    password: checker

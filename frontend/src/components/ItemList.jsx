@@ -1,21 +1,14 @@
 import Item from "./Item";
 import { useEffect, useRef } from "react";
 
-export default function ItemList({ items, getFiles }) {
-  const isInitialMount = useRef(true);
-
-  useEffect(() => {
-    if (isInitialMount.current) {
-      getFiles();
-      isInitialMount.current = false;
-    } else {
-    }
-  });
-  return (
+export default function ItemList({ user, items, getFiles }) {
+  return items.length > 0 ? (
     <div>
       {items.map((name) => (
-        <Item key={name} fullName={name} getFiles={getFiles}></Item>
+        <Item key={name} user={user} fullName={name} getFiles={getFiles}></Item>
       ))}
     </div>
+  ) : (
+    <div>NO FILES UPLOADED</div>
   );
 }

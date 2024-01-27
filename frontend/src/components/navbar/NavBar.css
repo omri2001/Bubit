@@ -1,0 +1,51 @@
+.navBar {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  gap: 1rem;
+  padding: 5px;
+
+  align-items: center;
+  color: white;
+  background-color: darkslategray;
+}
+.navBarTitle {
+  font-size: 2rem;
+}
+.navAlignLeft {
+  margin-left: 20px;
+}
+
+.navAlignRight {
+  margin-right: 20px;
+}
+.bigSpace {
+  flex-grow: 1;
+}
+
+.SvgBtn:hover {
+  cursor: pointer;
+  color: gray;
+}
+
+.infoModal2 {
+  display: inline;
+  position: absolute;
+  /* top: 0; */
+  /* right: 0; */
+  /* TODO: this css is half broken and not clean */
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  transition: right 0.3s ease;
+}
+.infoModal {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background-color: #fff;
+  transition: right 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}

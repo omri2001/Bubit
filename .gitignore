@@ -4,3 +4,5 @@ backend/__pycache__/
 .idea/
 
 backend/clients/__pycache__/
+
+backend/dal/__pycache__/

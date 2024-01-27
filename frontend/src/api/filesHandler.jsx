@@ -36,4 +36,33 @@ const uploadFiles = async (formData, user) => {
     throw error;
   });
 };
-export default { fetchFiles, uploadFiles };
+
+const deleteFile = async (fileName, user) => {
+  await BaseUrl.post(`delete`, fileName, {
+    headers: { username: user, "content-type": "text/json" },
+  });
+};
+
+const downloadFile = async (fileName, user) => {
+  await BaseUrl.post(
+    `get`,
+    { file_name: fileName },
+    {
+      headers: { username: user, "content-type": "application/json" },
+      responseType: "blob",
+    }
+  )
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    })
+    .then((blob) => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = fileName;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+};
+export default { fetchFiles, uploadFiles, deleteFile, downloadFile };

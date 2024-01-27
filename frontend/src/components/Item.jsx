@@ -7,6 +7,7 @@ import FolderZipIcon from "@mui/icons-material/FolderZip";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
 import { hexToRgb } from "@material-ui/core";
+import filesHandler from "../api/filesHandler";
 
 function getIcon(fileName) {
   const fileType = fileName.split(".")[1];
@@ -25,30 +26,19 @@ const getName = (fullName) => {
   return fullName.split(".")[0];
 };
 
-export default function Item({ fullName, getFiles }) {
+export default function Item({ fullName, getFiles, user }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const fileType = getIcon(fullName);
   const fileName = getName(fullName);
 
   function deleteFile() {
-    fetch(`http://localhost:8000/delete/${fullName}`, { method: "POST" });
+    filesHandler.deleteFile(fullName, user);
     getFiles();
   }
 
   function downloadFile() {
-    fetch(`http://localhost:8000/get/${fullName}`, { method: "POST" })
-      .then((response) => {
-        return response.blob();
-      })
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = fullName;
-        link.click();
-        URL.revokeObjectURL(url);
-      });
+    filesHandler.downloadFile(fullName, user);
   }
 
   return (

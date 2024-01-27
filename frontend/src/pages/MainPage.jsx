@@ -1,29 +1,39 @@
 import styles from "../../style.module.css";
-import Header from "../components/Header";
 import ItemList from "../components/ItemList";
 import UploadZone from "../components/UploadZone";
 import filesHandler from "../api/filesHandler";
-import NavBar from "../components/NavBar";
-import { useState } from "react";
+import NavBar from "../components/navbar/NavBar";
+import { useState, useEffect } from "react";
 
 import { UserContext } from "../UserContext";
 
 export default function MainPage({ user }) {
   const [files, setFiles] = useState([]);
 
-  const retriveFiles = async () => {
-    const files = await filesHandler.fetchFiles(user);
-    setFiles(files);
+  const getFiles = async () => {
+    if (user) {
+      const files = await filesHandler.fetchFiles(user);
+      setFiles(files);
+    }
   };
+
+  useEffect(() => {
+    getFiles();
+  }, [user]);
 
   return (
     <UserContext.Provider value={user}>
       <NavBar user={user} />
-      <div>
-        <Header user={user} />
-        <UploadZone user={user} getFiles={retriveFiles} />
-        <ItemList items={files} getFiles={retriveFiles} />
-        <button className={styles.getFilesBtn} onClick={retriveFiles}>
+      <div className={styles.All}>
+        <h1 className={styles.Header}>File Buploader</h1>
+        <UploadZone user={user} getFiles={getFiles} />
+        <ItemList
+          className={styles.Items}
+          user={user}
+          items={files}
+          getFiles={getFiles}
+        />
+        <button className={styles.getFilesBtn} onClick={getFiles}>
           Refresh Files
         </button>
       </div>
