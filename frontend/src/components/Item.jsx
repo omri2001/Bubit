@@ -6,12 +6,9 @@ import styles from "../../style.module.css";
 import FolderZipIcon from "@mui/icons-material/FolderZip";
 import DescriptionIcon from "@mui/icons-material/Description";
 import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
-import { hexToRgb } from "@material-ui/core";
 import filesHandler from "../api/filesHandler";
 
-function getIcon(fileName) {
-  const fileType = fileName.split(".")[1];
-
+function getIcon(fileType) {
   switch (fileType) {
     case "zip":
       return <FolderZipIcon />;
@@ -22,6 +19,10 @@ function getIcon(fileName) {
   }
 }
 
+const getType = (fullName) => {
+  return fullName.split(".")[1];
+};
+
 const getName = (fullName) => {
   return fullName.split(".")[0];
 };
@@ -29,7 +30,8 @@ const getName = (fullName) => {
 export default function Item({ fullName, getFiles, user }) {
   const [isHovered, setIsHovered] = useState(false);
 
-  const fileType = getIcon(fullName);
+  const fileType = getType(fullName);
+  const fileIcon = getIcon(fileType);
   const fileName = getName(fullName);
 
   function deleteFile() {
@@ -53,8 +55,8 @@ export default function Item({ fullName, getFiles, user }) {
           {fileName}
         </a>
       </div>
-
-      <div className={styles.itemType}>{fileType}</div>
+      .{fileType}
+      <div className={styles.itemType}>{fileIcon}</div>
       <RemoveCircleIcon className={styles.itemDel} onClick={deleteFile} />
     </div>
   );
